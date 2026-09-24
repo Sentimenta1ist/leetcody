@@ -1,15 +1,15 @@
-# Лог решённых задач
+# Log of Solved Problems
 
-Чистый код + краткое описание подхода. Обновлять при каждой новой закрытой задаче (можно попросить
-Claude добавить запись после того как тесты позеленели).
+Clean code + a short description of the approach. Update this after every newly closed problem (you can
+ask Claude to add an entry once the tests turn green).
 
 ---
 
 ## Two Sum (LeetCode 1) — Easy
 
-**Паттерн:** массивы/хеш-суммы, комплемент в hashmap за один проход.
-**Подход:** для каждого элемента ищем `target - nums[i]` в уже пройденной части массива через hashmap.
-Если нашли — это и есть пара. O(n) время, O(n) память.
+**Pattern:** arrays/hashing, complement in a hashmap in a single pass.
+**Approach:** for each element, look up `target - nums[i]` in the hashmap of already-seen elements.
+If found — that's the pair. O(n) time, O(n) space.
 
 ```java
 public int[] twoSum2(int[] nums, int target) {
@@ -30,9 +30,9 @@ public int[] twoSum2(int[] nums, int target) {
 
 ## Best Time to Buy and Sell Stock (LeetCode 121) — Easy
 
-**Паттерн:** массивы, running min + Kadane's algorithm в переодетом виде.
-**Подход:** держим минимальную цену среди пройденных дней и максимальный профит `price - minPrice`
-на каждом шаге. Одна транзакция, O(n)/O(1).
+**Pattern:** arrays, running min + Kadane's algorithm in disguise.
+**Approach:** keep the minimum price seen so far and the maximum profit `price - minPrice` at each
+step. A single transaction, O(n)/O(1).
 
 ```java
 public int maxProfit(int[] prices) {
@@ -54,9 +54,9 @@ public int maxProfit(int[] prices) {
 
 ## Best Time to Buy and Sell Stock II (LeetCode 122) — Medium
 
-**Паттерн:** гриди.
-**Подход:** неограниченное число транзакций ⇒ просто суммируем каждый положительный день-к-дню прирост
-цены (эквивалентно "купить на каждом локальном минимуме, продать на каждом локальном максимуме").
+**Pattern:** greedy.
+**Approach:** unlimited transactions ⇒ just sum up every positive day-to-day price increase
+(equivalent to "buy at every local minimum, sell at every local maximum").
 
 ```java
 public int maxProfit2(int[] prices) {
@@ -74,10 +74,10 @@ public int maxProfit2(int[] prices) {
 
 ## Reverse Linked List (LeetCode 206) — Easy
 
-**Паттерн:** связные списки, разворот на месте (3 указателя).
-**Подход:** `prev` стартует с `null`, `curr` — с `head` (не `head.next`!). На каждом шаге запоминаем
-`curr.next`, разворачиваем стрелку, сдвигаем оба указателя. Классический баг — начать `curr` с
-`head.next` и `prev` с `head`: тогда `head.next` никогда не обнуляется и получается цикл.
+**Pattern:** linked lists, in-place reversal (3 pointers).
+**Approach:** `prev` starts at `null`, `curr` starts at `head` (not `head.next`!). At each step, save
+`curr.next`, flip the arrow, move both pointers forward. Classic bug — starting `curr` at `head.next`
+and `prev` at `head`: then `head.next` never gets nulled out and you get a cycle.
 
 ```java
 public ListNode reverseList(ListNode head) {
@@ -97,11 +97,12 @@ public ListNode reverseList(ListNode head) {
 
 ## Reverse Linked List II (LeetCode 92) — Medium
 
-**Паттерн:** связные списки, тот же разворот на месте, но на ограниченном сегменте + подшивка краёв.
-**Подход:** dummy-нода на случай `left == 1`; довести `prev` до узла перед `left`; развернуть ровно
-`right - left + 1` узлов тем же алгоритмом, что и в `reverseList`; в конце вручную подключить старый
-хвост сегмента (который стал новым концом) к тому, что после сегмента, и старого `prev` — к новой
-голове сегмента.
+**Pattern:** linked lists, the same in-place reversal but on a bounded segment + stitching the edges
+back together.
+**Approach:** a dummy node for the `left == 1` case; walk `prev` to the node before `left`; reverse
+exactly `right - left + 1` nodes with the same algorithm as `reverseList`; at the end, manually connect
+the old segment tail (now the new end) to whatever comes after the segment, and the old `prev` to the
+new head of the segment.
 
 ```java
 public ListNode reverseBetween(ListNode head, int left, int right) {
@@ -131,9 +132,9 @@ public ListNode reverseBetween(ListNode head, int left, int right) {
 
 ## Find the First Letter to Appear Twice (LeetCode 2351) — Easy
 
-**Паттерн:** массивы/хеш-суммы, hashset для "уже видели".
-**Подход:** идём по строке, добавляем символы в `Set`; как только встретили символ, который уже в
-сете — это и есть первый повторившийся.
+**Pattern:** arrays/hashing, a hashset for "already seen".
+**Approach:** walk the string, add characters to a `Set`; the moment you see a character already in
+the set — that's the first repeated one.
 
 ```java
 public char repeatedCharacter(String s) {
@@ -154,11 +155,10 @@ public char repeatedCharacter(String s) {
 
 ## Invert Binary Tree (LeetCode 226) — Easy
 
-**Паттерн:** деревья, pre-order DFS с мутацией на месте.
-**Подход:** на каждом узле меняем местами `.left`/`.right`, потом рекурсивно делаем то же самое для
-обоих (уже переставленных) поддеревьев. Возвращаемое значение внутренних рекурсивных вызовов можно
-игнорировать — метод мутирует и возвращает тот же узел, который и так уже доступен через
-`root.left`/`root.right`.
+**Pattern:** trees, pre-order DFS with in-place mutation.
+**Approach:** at every node, swap `.left`/`.right`, then recursively do the same for both (already
+swapped) subtrees. The inner recursive calls' return value can be ignored — the method mutates and
+returns the same node that's already reachable through `root.left`/`root.right`.
 
 ```java
 public TreeNode invertTree(TreeNode root) {
@@ -178,11 +178,12 @@ public TreeNode invertTree(TreeNode root) {
 
 ## Reverse Odd Levels of Binary Tree (LeetCode 2415) — Medium
 
-**Паттерн:** деревья, BFS по уровням (сбор значений уровня + разворот) — версия 1.
-**Подход:** обычный level-order BFS с `levelSize`-снимком; на каждом уровне складываем узлы **этого
-уровня** (список пересоздаётся каждую итерацию `while`, иначе уровни смешиваются) в `ArrayList`, и если
-уровень нечётный — разворачиваем их значения two-pointer свапом (`left`/`right` навстречу друг другу).
-Дерево гарантированно **perfect** (по условию), поэтому не нужно беспокоиться о неполных уровнях.
+**Pattern:** trees, level-order BFS (collect a level's values + reverse) — version 1.
+**Approach:** regular level-order BFS with a `levelSize` snapshot; at every level, collect **that
+level's** nodes (the list is recreated every `while` iteration, otherwise levels bleed into each other)
+into an `ArrayList`, and if the level is odd — reverse their values with a two-pointer swap (`left`/
+`right` converging). The tree is guaranteed to be **perfect** (per the problem statement), so there's no
+need to worry about incomplete levels.
 
 ```java
 public TreeNode reverseOddLevels(TreeNode root) {
@@ -191,7 +192,7 @@ public TreeNode reverseOddLevels(TreeNode root) {
     int level = 0;
     while (!queue.isEmpty()) {
         int levelSize = queue.size();
-        ArrayList<TreeNode> nodes = new ArrayList<>(); // пересоздаётся КАЖДЫЙ уровень
+        ArrayList<TreeNode> nodes = new ArrayList<>(); // recreated EVERY level
         for (int i = 0; i < levelSize; i++) {
             TreeNode node = queue.poll();
             nodes.add(node);
@@ -216,13 +217,13 @@ public TreeNode reverseOddLevels(TreeNode root) {
 }
 ```
 
-**Версия 2 — DFS с парой "зеркальных" указателей** (короче, без явного сбора уровня в список):
-рекурсия сразу идёт по **двум** узлам одновременно — изначально `root.left` и `root.right` (концы
-уровня 1). Флаг `swap` говорит, нужно ли поменять их значения (стартует с `true`, потому что уровень 1
-нечётный), и инвертируется на каждом шаге вглубь, потому что чётность уровня строго чередуется.
-Рекурсивные вызовы идут в **скрещенные** пары — `(left.right, right.left)` и `(left.left, right.right)` —
-это единственные две комбинации, дающие зеркально-симметричные позиции на следующем уровне (структура
-дерева при этом не меняется, только значения).
+**Version 2 — DFS with a pair of "mirror" pointers** (shorter, no explicit level collection): the
+recursion walks **two** nodes at once — starting with `root.left` and `root.right` (the two ends of
+level 1). The `swap` flag says whether their values need swapping (starts at `true`, since level 1 is
+odd), and flips at every step down, because level parity strictly alternates. The recursive calls go in
+**crossed** pairs — `(left.right, right.left)` and `(left.left, right.right)` — these are the only two
+combinations that give mirror-symmetric positions at the next level (the tree's structure never
+changes, only the values).
 
 ```java
 public TreeNode reverseOddLevelsDFS(TreeNode root) {

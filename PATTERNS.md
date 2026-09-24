@@ -1,65 +1,65 @@
-# Шпаргалка по паттернам
+# Pattern Cheat Sheet
 
-Организовано в порядке плана изучения (см. `CLAUDE.md`). Это шаблоны **форм**, которые нужно уметь
-воспроизвести не задумываясь — не решения конкретных задач.
+Organized in the order of the study plan (see `CLAUDE.md`). These are **form** templates you should be
+able to reproduce without thinking — not solutions to specific problems.
 
 ---
 
-## 1. Деревья
+## 1. Trees
 
-### DFS (рекурсивно)
+### DFS (recursive)
 ```java
 void dfs(TreeNode node) {
     if (node == null) return;          // base case
     dfs(node.left);
-    // pre-order: обработка ЗДЕСЬ, до ухода в детей
+    // pre-order: processing HERE, before going into children
     dfs(node.right);
-    // post-order: обработка ЗДЕСЬ, после возврата из обоих детей
+    // post-order: processing HERE, after returning from both children
 }
 ```
-- **Pre-order** — когда обработка родителя не зависит от результата детей (копирование, печать).
-- **In-order** — для BST даёт отсортированный порядок.
-- **Post-order** — когда результат узла зависит от результатов детей (высота, диаметр, сумма поддерева).
+- **Pre-order** — when the parent's processing doesn't depend on the children's result (copying, printing).
+- **In-order** — gives sorted order for a BST.
+- **Post-order** — when the node's result depends on its children's results (height, diameter, subtree sum).
 
-### BFS (по уровням)
+### BFS (level by level)
 ```java
 Queue<TreeNode> queue = new LinkedList<>();
 queue.add(root);
 while (!queue.isEmpty()) {
-    int levelSize = queue.size();      // фиксируем ДО цикла — иначе не отделить уровни
+    int levelSize = queue.size();      // snapshot BEFORE the loop — otherwise levels can't be separated
     for (int i = 0; i < levelSize; i++) {
         TreeNode node = queue.poll();
-        // обработать node
+        // process node
         if (node.left != null) queue.add(node.left);
         if (node.right != null) queue.add(node.right);
     }
 }
 ```
 
-### Частые под-паттерны
-- **Высота/диаметр** — post-order DFS, диаметр = max(лево, право) отдельно возвращается вверх, а
-  "лево + право" трекается в глобальную переменную (не в return).
-- **LCA (lowest common ancestor)** — "информация поднимается наверх через return": если узел нашёл
-  оба искомых значения ниже себя (по одному в каждом поддереве) — он и есть ответ.
-- **Validate BST** — DFS с передачей границ `(min, max)` вниз через параметры рекурсии.
-- **Path Sum варианты** — DFS, накапливающий сумму по пути (либо передавать остаток вниз, либо
-  накапливать текущую сумму).
-- **Инвертировать дерево на месте** — pre-order DFS: свапнуть `.left`/`.right` у текущего узла ДО
-  рекурсии, потом рекурсивно то же для обоих (уже переставленных) поддеревьев. Возвращаемое значение
-  внутренних вызовов можно игнорировать — это мутация в чистом виде.
-- **Симметрия / зеркальные пары ("Mirror", Symmetric Tree, работа по уровням в perfect-дереве)** —
-  вместо одного `dfs(node)` рекурсия идёт сразу по **двум** узлам: `dfs(left, right)`, начиная с
-  `dfs(root.left, root.right)`. Рекурсивные вызовы идут в **скрещенные** пары —
-  `dfs(left.right, right.left)` и `dfs(left.left, right.right)` — это единственные две комбинации,
-  дающие зеркально-симметричные позиции на следующем уровне. Если нужно доп. знать чётность
-  уровня/глубины — передавай `boolean`-флаг и инвертируй его (`!flag`) на каждом шаге вглубь, чётность
-  всегда строго чередуется, не нужен явный счётчик.
+### Common sub-patterns
+- **Height/diameter** — post-order DFS, the diameter is `max(left, right)` returned up separately,
+  while "left + right" is tracked in a global variable (not in the return value).
+- **LCA (lowest common ancestor)** — "information bubbles up through the return value": if a node found
+  both target values below it (one in each subtree) — it is the answer.
+- **Validate BST** — DFS passing `(min, max)` bounds down through recursion parameters.
+- **Path Sum variants** — DFS accumulating a sum along the path (either pass the remainder down, or
+  accumulate the running sum).
+- **Invert a tree in place** — pre-order DFS: swap `.left`/`.right` on the current node BEFORE
+  recursing, then recursively do the same for both (already swapped) subtrees. The inner calls' return
+  value can be ignored — it's a pure mutation.
+- **Symmetry / mirror pairs ("Mirror", Symmetric Tree, working level-by-level in a perfect tree)** —
+  instead of one `dfs(node)`, recursion walks **two** nodes at once: `dfs(left, right)`, starting from
+  `dfs(root.left, root.right)`. The recursive calls go in **crossed** pairs —
+  `dfs(left.right, right.left)` and `dfs(left.left, right.right)` — these are the only two combinations
+  that give mirror-symmetric positions at the next level. If you also need to know the parity of the
+  level/depth, pass a `boolean` flag and flip it (`!flag`) at every step down — parity always strictly
+  alternates, no explicit counter needed.
 
 ---
 
-## 2. Массивы / Хеш-суммы
+## 2. Arrays / Hashing
 
-### Two Sum (комплемент в hashmap за один проход)
+### Two Sum (complement in a hashmap, single pass)
 ```java
 Map<Integer, Integer> seen = new HashMap<>();
 for (int i = 0; i < nums.length; i++) {
@@ -69,7 +69,7 @@ for (int i = 0; i < nums.length; i++) {
 }
 ```
 
-### Prefix sum + hashmap (подмассив с суммой K)
+### Prefix sum + hashmap (subarray with sum K)
 ```java
 Map<Integer, Integer> prefixCount = new HashMap<>();
 prefixCount.put(0, 1);
@@ -81,32 +81,32 @@ for (int num : nums) {
 }
 ```
 
-### Sliding window (переменный размер)
+### Sliding window (variable size)
 ```java
 int left = 0;
 for (int right = 0; right < nums.length; right++) {
-    // добавить nums[right] в окно
-    while (/* окно невалидно */) {
-        // убрать nums[left] из окна
+    // add nums[right] to the window
+    while (/* window invalid */) {
+        // remove nums[left] from the window
         left++;
     }
-    // обновить ответ, используя текущее окно [left, right]
+    // update the answer using the current window [left, right]
 }
 ```
 
-### Two pointers (навстречу друг другу)
+### Two pointers (converging)
 ```java
 int left = 0, right = nums.length - 1;
 while (left < right) {
-    // сравнить/посчитать, сдвинуть left++ или right--
+    // compare/compute, move left++ or right--
 }
 ```
 
 ---
 
-## 3. Графы
+## 3. Graphs
 
-### DFS с visited
+### DFS with visited
 ```java
 void dfs(int node, Set<Integer> visited, Map<Integer, List<Integer>> graph) {
     if (visited.contains(node)) return;
@@ -115,12 +115,12 @@ void dfs(int node, Set<Integer> visited, Map<Integer, List<Integer>> graph) {
 }
 ```
 
-### BFS с visited
+### BFS with visited
 ```java
 Queue<Integer> queue = new LinkedList<>();
 Set<Integer> visited = new HashSet<>();
 queue.add(start);
-visited.add(start);                     // помечать ПРИ ДОБАВЛЕНИИ в очередь, не при извлечении
+visited.add(start);                     // mark WHEN ADDING to the queue, not when polling
 while (!queue.isEmpty()) {
     int node = queue.poll();
     for (int neighbor : graph.get(node)) {
@@ -145,10 +145,10 @@ void union(int a, int b) {
 }
 ```
 
-### Топологическая сортировка (Kahn's, BFS-based)
+### Topological sort (Kahn's, BFS-based)
 ```java
 int[] inDegree = new int[n];
-// ... заполнить inDegree по рёбрам графа
+// ... fill inDegree from the graph's edges
 Queue<Integer> queue = new LinkedList<>();
 for (int i = 0; i < n; i++) if (inDegree[i] == 0) queue.add(i);
 List<Integer> order = new ArrayList<>();
@@ -159,18 +159,19 @@ while (!queue.isEmpty()) {
         if (--inDegree[neighbor] == 0) queue.add(neighbor);
     }
 }
-// order.size() < n  =>  в графе есть цикл
+// order.size() < n  =>  the graph has a cycle
 ```
 
 ### Multi-source BFS
-Как обычный BFS, но в очередь изначально кладутся **все** стартовые узлы сразу (не один), например все
-"гнилые апельсины" сразу, а не по одному — это даёт кратчайшее расстояние от ближайшего источника.
+Same as regular BFS, but **all** starting nodes are added to the queue up front (not just one) — e.g.
+all "rotting oranges" at once, not one at a time — this gives the shortest distance from the nearest
+source.
 
 ---
 
-## 4. Стек
+## 4. Stack
 
-### Базовый стек (matching/undo)
+### Basic stack (matching/undo)
 ```java
 Deque<Character> stack = new ArrayDeque<>();
 for (char c : s.toCharArray()) {
@@ -183,76 +184,77 @@ for (char c : s.toCharArray()) {
 return stack.isEmpty();
 ```
 
-### Монотонный стек (next greater element)
+### Monotonic stack (next greater element)
 ```java
 int[] result = new int[n];
-Deque<Integer> stack = new ArrayDeque<>();   // хранит ИНДЕКСЫ
+Deque<Integer> stack = new ArrayDeque<>();   // stores INDICES
 for (int i = 0; i < n; i++) {
     while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
         result[stack.pop()] = nums[i];
     }
     stack.push(i);
 }
-// то, что осталось в стеке после цикла — элементы без "следующего большего"
+// whatever's left in the stack after the loop — elements with no "next greater"
 ```
-Признак задачи: "следующий больший/меньший элемент", "сколько дней ждать пока цена вырастет",
-"площадь прямоугольника в гистограмме".
+Signal for this pattern: "next greater/smaller element", "how many days to wait for the price to rise",
+"rectangle area in a histogram".
 
 ---
 
-## 5. Бектрекинг
+## 5. Backtracking
 
 ```java
-void backtrack(List<Integer> current, /* остальное состояние */) {
-    if (/* условие завершения */) {
-        result.add(new ArrayList<>(current));   // КОПИЯ, не сам current
+void backtrack(List<Integer> current, /* rest of the state */) {
+    if (/* termination condition */) {
+        result.add(new ArrayList<>(current));   // a COPY, not current itself
         return;
     }
-    for (int choice : /* доступные варианты на этом шаге */) {
-        current.add(choice);            // выбрать
-        backtrack(current, ...);        // исследовать
-        current.remove(current.size() - 1);  // откатить — самая частая забытая строчка
+    for (int choice : /* choices available at this step */) {
+        current.add(choice);            // choose
+        backtrack(current, ...);        // explore
+        current.remove(current.size() - 1);  // undo — the most commonly forgotten line
     }
 }
 ```
-Единая идея: перебрать все варианты, после каждой попытки откатить состояние перед следующей.
-Частые формы: subsets (брать/не брать), permutations (использованные элементы трекать отдельно),
-combination sum (можно повторно использовать элемент — не увеличивать индекс старта).
+The single idea: try every choice, and after each attempt undo the state before trying the next one.
+Common shapes: subsets (take/don't take), permutations (track used elements separately),
+combination sum (an element can be reused — don't advance the starting index).
 
 ---
 
-## 6. Гриди
+## 6. Greedy
 
-Ментальная модель: **сначала отсортировать по какому-то критерию, потом на каждом шаге брать локально
-оптимальный вариант, никогда к нему не возвращаясь.**
+Mental model: **first sort by some criterion, then at each step take the locally optimal choice,
+never revisiting it.**
 
-Признаки, что тут может сработать гриди (а не DP):
-- Задача про интервалы/расписание ("максимум непересекающихся встреч") — сортировка по концу интервала.
-- "Минимизируй/максимизируй что-то, где выбор для одного элемента не влияет на то, какие выборы были
-  доступны для других" — если это неверно (выборы взаимозависимы сложным образом) — скорее всего DP,
-  не гриди.
+Signs that greedy might work here (instead of DP):
+- A problem about intervals/scheduling ("max non-overlapping meetings") — sort by interval end.
+- "Minimize/maximize something where the choice for one element doesn't affect which choices were
+  available for others" — if this is false (choices are interdependent in a complex way) — it's
+  probably DP, not greedy.
 
-Как проверить гипотезу гриди на собеседовании: попробовать привести контрпример руками на маленьком
-входе (3-4 элемента). Если гриди-стратегия ломается — задача не гриди, минимум почти наверняка DP.
+How to sanity-check a greedy hypothesis in an interview: try to construct a counterexample by hand on a
+small input (3-4 elements). If the greedy strategy breaks — the problem isn't greedy, it's almost
+certainly DP.
 
 ---
 
-## 7. ДП
+## 7. DP
 
-### Универсальный рецепт — 3 вопроса перед кодом
-1. Что значит `dp[i]` (или `dp[i][j]`)? — сформулировать **словами**, не формулой.
-2. Как `dp[i]` выражается через более мелкие подзадачи? (переход)
-3. Какой base case?
+### Universal recipe — 3 questions before writing code
+1. What does `dp[i]` (or `dp[i][j]`) mean? — state it **in words**, not as a formula.
+2. How is `dp[i]` expressed in terms of smaller subproblems? (the transition)
+3. What is the base case?
 
-### 6 форм
-| Форма | Признак в условии | Референс |
+### 6 shapes
+| Shape | Signal in the problem statement | Reference |
 |---|---|---|
-| Линейная 1D | "на каждом шаге решить: включать элемент или нет", один массив | Climbing Stairs, House Robber |
-| Grid/2D | "путь по сетке вправо/вниз" | Unique Paths, Minimum Path Sum |
-| Knapsack | "набор предметов, ограничение по сумме/весу" | Coin Change, Partition Equal Subset Sum |
-| Two-sequence | **две** строки/массива на входе | Longest Common Subsequence, Edit Distance |
-| Interval DP | "раздели диапазон на части", таблица по ДЛИНЕ диапазона, не по индексу | Longest Palindromic Substring, Burst Balloons |
-| State-machine | несколько взаимоисключающих состояний на шаг | Best Time to Buy/Sell Stock (cooldown/fee) |
+| Linear 1D | "at each step decide: include the element or not", a single array | Climbing Stairs, House Robber |
+| Grid/2D | "path through a grid, right/down" | Unique Paths, Minimum Path Sum |
+| Knapsack | "a set of items, a constraint on sum/weight" | Coin Change, Partition Equal Subset Sum |
+| Two-sequence | **two** strings/arrays as input | Longest Common Subsequence, Edit Distance |
+| Interval DP | "split the range into parts", table indexed by range LENGTH, not by index | Longest Palindromic Substring, Burst Balloons |
+| State machine | several mutually exclusive states per step | Best Time to Buy/Sell Stock (cooldown/fee) |
 
-Порядок действий на новой ДП-задаче: сначала определить, в какую из 6 форм она укладывается, потом
-уже писать рекуррентное соотношение под эту форму.
+Order of operations on a new DP problem: first figure out which of the 6 shapes it fits, then write the
+recurrence relation for that shape.

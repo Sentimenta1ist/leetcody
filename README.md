@@ -1,29 +1,30 @@
-# Прогресс подготовки к алгоритмическим интервью
+# Algorithm Interview Prep Progress
 
-Одна таблица, сгруппированная по паттернам. Задача в колонке "Референс" — просто пример паттерна с LeetCode,
-не обязательный конкретный номер. Если решаешь **другую** задачу того же паттерна — отмечай чекбокс и пиши
-в "Что решил" реальное название + дату. Цель — закрыть паттерн, а не конкретный номер.
+A single table grouped by patterns. The task in the "Reference" column is just an example of the
+pattern from LeetCode, not a mandatory specific number. If you solve a **different** problem of the
+same pattern — mark the checkbox and write the real name in "What I solved". The goal is to close the
+pattern, not a specific number.
 
-- ⬜ — паттерн не закрыт
-- ✅ — паттерн закрыт (решил без сильных залипаний)
+- ⬜ — pattern not closed yet
+- ✅ — pattern closed (solved without major getting-stuck)
 
-| ✓ | Паттерн | Референс (LeetCode) | Сложность | Что решил | Дата |
+| ✓ | Pattern | Reference (LeetCode) | Difficulty | What I solved | Date |
 |---|---|---|---|---|---|
-| ✅ | Деревья (DFS) | Diameter of Binary Tree | 🟢 Easy | Invert Binary Tree (226) + Reverse Odd Levels DFS (2415) | 2026-09-24 |
-| ⬜ | Деревья (DFS) | Binary Tree Maximum Path Sum | 🔴 Hard | | |
-| ✅ | Деревья (BFS) | Binary Tree Vertical Order Traversal | 🟡 Medium | Reverse Odd Levels of Binary Tree — BFS (2415) | 2026-09-24 |
-| ⬜ | Деревья (design) | Binary Search Tree Iterator | 🟡 Medium | | |
-| ⬜ | Хеширование / массивы | Isomorphic Strings | 🟢 Easy | | |
-| ⬜ | Хеширование / массивы | Check If N and Its Double Exist | 🟢 Easy | | |
-| ⬜ | Хеширование / массивы | Ransom Note | 🟢 Easy | | |
-| ⬜ | Стек | Remove All Adjacent Duplicates In String | 🟢 Easy | | |
-| ⬜ | Монотонный стек | Largest Rectangle in Histogram | 🔴 Hard | | |
-| ⬜ | Битовые операции | Binary Gap | 🟢 Easy | | |
-| ⬜ | Greedy / сортировка | Triangle / Triangle Inequality check | 🟢 Easy | | |
-| ⬜ | Greedy / сортировка | Largest Number | 🟡 Medium | | |
+| ✅ | Trees (DFS) | Diameter of Binary Tree | 🟢 Easy | Invert Binary Tree (226) + Reverse Odd Levels DFS (2415) | 2026-09-24 |
+| ⬜ | Trees (DFS) | Binary Tree Maximum Path Sum | 🔴 Hard | | |
+| ✅ | Trees (BFS) | Binary Tree Vertical Order Traversal | 🟡 Medium | Reverse Odd Levels of Binary Tree — BFS (2415) | 2026-09-24 |
+| ⬜ | Trees (design) | Binary Search Tree Iterator | 🟡 Medium | | |
+| ⬜ | Hashing / arrays | Isomorphic Strings | 🟢 Easy | | |
+| ⬜ | Hashing / arrays | Check If N and Its Double Exist | 🟢 Easy | | |
+| ⬜ | Hashing / arrays | Ransom Note | 🟢 Easy | | |
+| ⬜ | Stack | Remove All Adjacent Duplicates In String | 🟢 Easy | | |
+| ⬜ | Monotonic stack | Largest Rectangle in Histogram | 🔴 Hard | | |
+| ⬜ | Bit manipulation | Binary Gap | 🟢 Easy | | |
+| ⬜ | Greedy / sorting | Triangle / Triangle Inequality check | 🟢 Easy | | |
+| ⬜ | Greedy / sorting | Largest Number | 🟡 Medium | | |
 | ⬜ | Greedy / DP (Kadane variant) | Maximum Sum Circular Subarray | 🟡 Medium | | |
 | ✅ | Two pointers | 3Sum | 🟡 Medium | | |
-| ⬜ | Two pointers / симуляция | Adding Spaces to a String | 🟡 Medium | | |
+| ⬜ | Two pointers / simulation | Adding Spaces to a String | 🟡 Medium | | |
 | ⬜ | Sliding window | Continuous Subarrays | 🟡 Medium | | |
 | ⬜ | Sliding window | Longest Repeating Character Replacement | 🟡 Medium | | |
 | ⬜ | Sliding window (hard) | Minimum Window Substring | 🔴 Hard | | |
@@ -33,25 +34,25 @@
 | ⬜ | Heap / priority queue | Find K Pairs with Smallest Sums | 🟡 Medium | | |
 | ⬜ | Heap / priority queue | Kth Largest Element in an Array | 🟡 Medium | | |
 | ⬜ | Heap + greedy | Reorganize String | 🟡 Medium | | |
-| ⬜ | Binary search на ответе | Zero Array Transformation II | 🟡 Medium | | |
-| ⬜ | Binary search на ответе | Split Array Largest Sum | 🔴 Hard | | |
-| ⬜ | Binary search (классический, hard) | Median of Two Sorted Arrays | 🔴 Hard | | |
+| ⬜ | Binary search on answer | Zero Array Transformation II | 🟡 Medium | | |
+| ⬜ | Binary search on answer | Split Array Largest Sum | 🔴 Hard | | |
+| ⬜ | Binary search (classic, hard) | Median of Two Sorted Arrays | 🔴 Hard | | |
 | ⬜ | Backtracking | Combination Sum II | 🟡 Medium | | |
 | ⬜ | Union-Find | Accounts Merge | 🟡 Medium | | |
-| ⬜ | Union-Find (продвинутый) | Rank Transform of a Matrix | 🔴 Hard | | |
-| ⬜ | Graph DFS (сетка) | Number of Distinct Islands | 🟡 Medium | | |
+| ⬜ | Union-Find (advanced) | Rank Transform of a Matrix | 🔴 Hard | | |
+| ⬜ | Graph DFS (grid) | Number of Distinct Islands | 🟡 Medium | | |
 | ⬜ | Graph BFS | Bus Routes | 🔴 Hard | | |
-| ⬜ | Топологическая сортировка | Alien Dictionary | 🔴 Hard | | |
+| ⬜ | Topological sort | Alien Dictionary | 🔴 Hard | | |
 | ⬜ | DP + binary search | Maximum Profit in Job Scheduling | 🔴 Hard | | |
-| ⬜ | Симуляция / парсинг | Invalid Transactions | 🟡 Medium | | |
-| ⬜ | Симуляция строк | Zigzag Conversion | 🟡 Medium | | |
+| ⬜ | Simulation / parsing | Invalid Transactions | 🟡 Medium | | |
+| ⬜ | String simulation | Zigzag Conversion | 🟡 Medium | | |
 
 ---
 
-## Уже закрыто (вне этой таблицы, для истории)
+## Already closed (outside this table, for history)
 
-- Two Sum (hashmap, два варианта)
+- Two Sum (hashmap, two variants)
 - Best Time to Buy and Sell Stock (I, II)
-- Best Time to Buy and Sell Stock III / with Cooldown — в процессе
+- Best Time to Buy and Sell Stock III / with Cooldown — in progress
 - Reverse Linked List / Reverse Linked List II
-- Longest Substring Without Repeating Character (repeatedCharacter)
+- Find the First Letter to Appear Twice (repeatedCharacter)

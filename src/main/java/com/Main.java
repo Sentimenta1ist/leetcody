@@ -199,7 +199,7 @@ public class Main {
         int level = 0;
         while (!queue.isEmpty()) {
             int levelSize = queue.size();
-            ArrayList<TreeNode> nodes = new ArrayList<>(); // пересоздаётся КАЖДЫЙ уровень
+            ArrayList<TreeNode> nodes = new ArrayList<>(); // recreated EVERY level
             for (int i = 0; i < levelSize; i++) {
                 TreeNode node = queue.poll();
                 nodes.add(node);
@@ -226,34 +226,34 @@ public class Main {
     @Test
     public void reverseOddLevelsTest() {
         TreeNode tree1 = buildTree(new Integer[] {2, 3, 5, 8, 13, 21, 34});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree1);
         TreeNode result1 = reverseOddLevels(tree1);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result1);
         assertArrayEquals(new Integer[] {2, 5, 3, 8, 13, 21, 34}, toArray(result1));
 
         TreeNode tree2 = buildTree(new Integer[] {7, 13, 11});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree2);
         TreeNode result2 = reverseOddLevels(tree2);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result2);
         assertArrayEquals(new Integer[] {7, 11, 13}, toArray(result2));
 
         TreeNode tree3 = buildTree(new Integer[] {5});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree3);
         TreeNode result3 = reverseOddLevels(tree3);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result3);
         assertArrayEquals(new Integer[] {5}, toArray(result3));
 
         TreeNode tree4 = buildTree(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree4);
         TreeNode result4 = reverseOddLevels(tree4);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result4);
         assertArrayEquals(new Integer[] {1, 3, 2, 4, 5, 6, 7, 15, 14, 13, 12, 11, 10, 9, 8}, toArray(result4));
     }
@@ -279,34 +279,34 @@ public class Main {
     @Test
     public void reverseOddLevelsDFSTest() {
         TreeNode tree1 = buildTree(new Integer[] {2, 3, 5, 8, 13, 21, 34});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree1);
         TreeNode result1 = reverseOddLevelsDFS(tree1);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result1);
         assertArrayEquals(new Integer[] {2, 5, 3, 8, 13, 21, 34}, toArray(result1));
 
         TreeNode tree2 = buildTree(new Integer[] {7, 13, 11});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree2);
         TreeNode result2 = reverseOddLevelsDFS(tree2);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result2);
         assertArrayEquals(new Integer[] {7, 11, 13}, toArray(result2));
 
         TreeNode tree3 = buildTree(new Integer[] {5});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree3);
         TreeNode result3 = reverseOddLevelsDFS(tree3);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result3);
         assertArrayEquals(new Integer[] {5}, toArray(result3));
 
         TreeNode tree4 = buildTree(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15});
-        System.out.println("До:");
+        System.out.println("Before:");
         printTree(tree4);
         TreeNode result4 = reverseOddLevelsDFS(tree4);
-        System.out.println("После:");
+        System.out.println("After:");
         printTree(result4);
         assertArrayEquals(new Integer[] {1, 3, 2, 4, 5, 6, 7, 15, 14, 13, 12, 11, 10, 9, 8}, toArray(result4));
     }

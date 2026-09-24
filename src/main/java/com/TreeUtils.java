@@ -8,9 +8,9 @@ import java.util.Queue;
 public class TreeUtils {
 
     /**
-     * Строит дерево из level-order массива в формате LeetCode:
-     * null означает отсутствующего ребёнка, но под null дальше ничего не описывается.
-     * Пример: [4,2,7,1,3,6,9] или [1,2,3,null,4].
+     * Builds a tree from a level-order array in LeetCode's format:
+     * null means a missing child, and nothing further is described below a null.
+     * Example: [4,2,7,1,3,6,9] or [1,2,3,null,4].
      */
     public static TreeNode buildTree(Integer[] values) {
         if (values == null || values.length == 0 || values[0] == null) {
@@ -41,8 +41,8 @@ public class TreeUtils {
     }
 
     /**
-     * Обратное преобразование — level-order массив с null для отсутствующих детей,
-     * с обрезанными висящими null в конце (как в выводе LeetCode).
+     * The reverse transformation — a level-order array with null for missing children,
+     * with trailing dangling nulls trimmed (like LeetCode's own output).
      */
     public static Integer[] toArray(TreeNode root) {
         List<Integer> result = new ArrayList<>();
@@ -68,12 +68,12 @@ public class TreeUtils {
     }
 
     /**
-     * Красивый визуальный принт дерева сверху вниз: корень наверху, дети под ним,
-     * ветки рисуются символами '/' и '\'.
+     * A pretty top-down visual print of the tree: root on top, children below,
+     * branches drawn with '/' and '\' characters.
      */
     public static void printTree(TreeNode root) {
         if (root == null) {
-            System.out.println("(пусто)");
+            System.out.println("(empty)");
             return;
         }
         for (String line : display(root).lines) {
@@ -84,7 +84,7 @@ public class TreeUtils {
     private static class Display {
         final List<String> lines;
         final int width;
-        final int middle; // позиция символа, к которому подходит ветка сверху
+        final int middle; // position of the character the branch above connects to
 
         Display(List<String> lines, int width, int middle) {
             this.lines = lines;
