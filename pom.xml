@@ -36,7 +36,7 @@
                 <configuration>
                     <testClassesDirectory>${project.build.outputDirectory}</testClassesDirectory>
                     <includes>
-                        <include>**/Main.class</include>
+                        <include>**/Problems.class</include>
                     </includes>
                 </configuration>
             </plugin>

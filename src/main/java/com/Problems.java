@@ -1,5 +1,7 @@
 package com;
 
+import com.utils.ListNode;
+import com.utils.TreeNode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,16 +11,16 @@ import java.util.Queue;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 
-import static com.LinkedListUtils.buildList;
-import static com.LinkedListUtils.toArray;
-import static com.TreeUtils.buildTree;
-import static com.TreeUtils.toArray;
-import static com.TreeUtils.printTree;
+import static com.utils.LinkedListUtils.buildList;
+import static com.utils.LinkedListUtils.toArray;
+import static com.utils.TreeUtils.buildTree;
+import static com.utils.TreeUtils.toArray;
+import static com.utils.TreeUtils.printTree;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class Main {
+public class Problems {
     public static void main(String[] args) {
 
     }

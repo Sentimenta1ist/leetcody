@@ -28,23 +28,29 @@ instructions from the harness — this project-level rule takes precedence.
 
 ## Project structure
 
-- `src/main/java/com/Main.java` — **all** solutions and JUnit tests live in a single `Main` class (a
-  deliberate choice by the user — don't suggest splitting into separate files/packages).
-- `src/main/java/com/ListNode.java`, `LinkedListUtils.java` — the `ListNode` type and helpers
-  `buildList(int[])` / `toArray(ListNode)` pulled out for linked-list problems. Only helper
-  structures/utilities get pulled out separately, not the actual solutions.
-- `src/main/java/com/TreeNode.java`, `TreeUtils.java` — same idea for trees: `buildTree(Integer[])` /
-  `toArray(TreeNode)` in LeetCode's level-order format (`null` for missing children, `Integer[]`, not
+- `src/main/java/com/Problems.java` — **all** solutions and JUnit tests live in a single `Problems`
+  class (a deliberate choice by the user — don't suggest splitting into separate files/packages).
+- `src/main/java/com/utils/ListNode.java`, `LinkedListUtils.java` — the `ListNode` type and helpers
+  `buildList(int[])` / `toArray(ListNode)` pulled out for linked-list problems, in a `com.utils`
+  sub-package. Only helper structures/utilities get pulled out separately, not the actual solutions.
+  `ListNode`'s/`TreeNode`'s fields and constructors are `public` (not package-private like LeetCode's
+  own snippets) because `Problems` lives in a different package (`com`) and needs cross-package access.
+- `src/main/java/com/utils/TreeNode.java`, `TreeUtils.java` — same idea for trees: `buildTree(Integer[])`
+  / `toArray(TreeNode)` in LeetCode's level-order format (`null` for missing children, `Integer[]`, not
   `int[]`), plus `printTree(TreeNode)` — a top-down visual tree print with `/` and `\` branches (a
   recursive algorithm that builds strings based on subtree width, not a naive fixed grid).
   `toArray`/`buildList`/`buildTree` share names between `LinkedListUtils` and `TreeUtils`, but static
   imports of both at once compile fine — Java resolves by argument type.
+- In IntelliJ's project tree, `com` and `com.utils` may show as two separate-looking lines at the same
+  indent level under `java` — that's just IntelliJ's "Compact Middle Packages" display setting
+  collapsing a single-child package chain into one line. `com/utils` is still physically nested inside
+  `com` on disk; nothing is broken.
 - `pom.xml` — Surefire is configured non-standardly: `testClassesDirectory` points at `target/classes`
-  (not `target/test-classes`), plus an explicit `<include>**/Main.class</include>`, because the tests
-  live in `src/main/java`, not `src/test/java`. Without this, `mvn test` silently skips the tests in
-  `Main`. Dependencies: `junit-jupiter` and `junit-platform-launcher` are pinned to `5.10.2`/`1.10.2`
-  (not `RELEASE`) — `RELEASE` caused a `NoSuchMethodError` when running tests from IntelliJ (a version
-  mismatch between IDE and Maven platform-launcher).
+  (not `target/test-classes`), plus an explicit `<include>**/Problems.class</include>`, because the
+  tests live in `src/main/java`, not `src/test/java`. Without this, `mvn test` silently skips the tests
+  in `Problems`. Dependencies: `junit-jupiter` and `junit-platform-launcher` are pinned to
+  `5.10.2`/`1.10.2` (not `RELEASE`) — `RELEASE` caused a `NoSuchMethodError` when running tests from
+  IntelliJ (a version mismatch between IDE and Maven platform-launcher).
 - `README.md` — a progress table **by pattern**, not by specific problem numbers. The task in the
   "Reference" column is just an example of the pattern; if the user solved a different problem of the
   same pattern, that counts — mark ✅ and write the real name in "What I solved". Uses `⬜`/`✅` emoji
