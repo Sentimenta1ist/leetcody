@@ -54,6 +54,15 @@ while (!queue.isEmpty()) {
   that give mirror-symmetric positions at the next level. If you also need to know the parity of the
   level/depth, pass a `boolean` flag and flip it (`!flag`) at every step down — parity always strictly
   alternates, no explicit counter needed.
+- **N-ary tree DFS** — same recursive shape as binary tree DFS, just loop over `node.children` instead of
+  explicit `left`/`right`. Combine the children's results with a **local** accumulator re-created on
+  every call (list concatenation via `addAll`, or `Math.max` in a loop) — never a shared/global field,
+  the same way you'd never need one for the binary version.
+- **N-ary tree BFS** — same idea as binary BFS, just replace the two `if (node.left/right != null)`
+  checks with a loop over `node.children`.
+- **Structural comparison (Same Tree / Subtree)** — a helper that compares two trees node-by-node
+  (`isSameTree`-style) doubles as the building block for "is X a subtree of Y" — just call that helper
+  at every node of the bigger tree instead of only at the root.
 
 ---
 
@@ -101,6 +110,26 @@ while (left < right) {
     // compare/compute, move left++ or right--
 }
 ```
+
+### Bijective mapping (isomorphic strings)
+When a mapping between two sequences must hold **both ways** (no two source elements share a target),
+one hashmap isn't enough — track both directions:
+```java
+Map<Character, Character> aToB = new HashMap<>();
+Map<Character, Character> bToA = new HashMap<>();
+for (int i = 0; i < a.length(); i++) {
+    char x = a.charAt(i), y = b.charAt(i);
+    if (!aToB.containsKey(x) && !bToA.containsKey(y)) {
+        aToB.put(x, y);
+        bToA.put(y, x);
+    } else if (!aToB.containsKey(x) || !bToA.containsKey(y)
+            || aToB.get(x) != y || bToA.get(y) != x) {
+        return false;
+    }
+}
+```
+A faster (same `O(n)`, smaller constant) alternative when the alphabet is small: replace both maps with
+`int[]` arrays indexed by character code, storing "last seen position" — no hashing, no boxing.
 
 ---
 

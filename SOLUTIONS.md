@@ -244,3 +244,223 @@ public void reverseOddLevelsDFStraverse(TreeNode left, TreeNode right, boolean s
     reverseOddLevelsDFStraverse(left.left, right.right, !swap);
 }
 ```
+
+---
+
+## Binary & N-ary Tree Preorder/Postorder Traversal (LeetCode 144 / 145 / 589 / 590) — Easy
+
+**Pattern:** trees, DFS that returns a list built purely from recursive results — no shared accumulator.
+**Approach:** each call builds and returns its own `List<Integer>`; the parent just `addAll`s what its
+children returned, combined with its own `val` — `val` first for pre-order, `val` last for post-order.
+The binary and n-ary versions are overloads of the same method name (resolved by argument type): the
+binary one recurses into `left`/`right`, the n-ary one loops over `children`.
+
+```java
+public List<Integer> preorderTraversal(TreeNode root) {
+    if (root == null) {
+        return new ArrayList<>();
+    }
+    List<Integer> res = new ArrayList<>();
+    res.add(root.val);
+    res.addAll(preorderTraversal(root.left));
+    res.addAll(preorderTraversal(root.right));
+    return res;
+}
+
+public List<Integer> preorderTraversal(Node root) {
+    if (root == null) {
+        return new ArrayList<>();
+    }
+    List<Integer> res = new ArrayList<>();
+    res.add(root.val);
+    for (Node child : root.children) {
+        res.addAll(preorderTraversal(child));
+    }
+    return res;
+}
+
+public List<Integer> postorderTraversal(TreeNode root) {
+    if (root == null) {
+        return new ArrayList<>();
+    }
+    List<Integer> res = new ArrayList<>();
+    res.addAll(postorderTraversal(root.left));
+    res.addAll(postorderTraversal(root.right));
+    res.add(root.val);
+    return res;
+}
+
+public List<Integer> postorderTraversal(Node root) {
+    if (root == null) {
+        return new ArrayList<>();
+    }
+    List<Integer> res = new ArrayList<>();
+    for (Node child : root.children) {
+        res.addAll(postorderTraversal(child));
+    }
+    res.add(root.val);
+    return res;
+}
+```
+
+---
+
+## Maximum Depth of Binary & N-ary Tree (LeetCode 104 / 559) — Easy
+
+**Pattern:** trees, post-order DFS height — the answer is computed on the way back up the recursion, not
+on the way down.
+**Approach:** for a binary node, `1 + max(depth(left), depth(right))`. For an n-ary node, loop over all
+children and keep the biggest depth seen so far in a **local** `max` variable (a fresh one on every call,
+not a shared field), then add 1 at the end.
+
+```java
+public int maxDepth(TreeNode root) {
+    if (root == null) {
+        return 0;
+    }
+    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+}
+
+public int maxDepth(Node root) {
+    if (root == null) {
+        return 0;
+    }
+    int max = 0;
+    for (int i = 0; i < root.children.size(); i++) {
+        max = Math.max(max, maxDepth(root.children.get(i)));
+    }
+    return max + 1;
+}
+```
+
+---
+
+## Same Tree & Subtree of Another Tree (LeetCode 100 / 572) — Easy
+
+**Pattern:** trees, DFS structural comparison — the second problem directly reuses the first.
+**Approach:** `isSameTree` — three base cases (both null → true, only one null → false, values differ →
+false), then recurse into both child pairs. `isSubtree` walks every node of `root` and asks "is the
+subtree starting here the same tree as `subRoot`?" — using `isSameTree` as the check at each node.
+
+```java
+public boolean isSameTree(TreeNode p, TreeNode q) {
+    if (p == null && q == null) {
+        return true;
+    }
+    if (p == null || q == null) {
+        return false;
+    }
+    if (p.val != q.val) {
+        return false;
+    }
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+}
+
+public boolean isSubtree(TreeNode root, TreeNode subRoot) {
+    if (root == null || subRoot == null) {
+        return false;
+    }
+    return isSameTree(root, subRoot) || isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+}
+```
+A more efficient alternative (`O(n + m)` instead of `O(n · m)`): serialize both trees to strings with a
+delimiter before every value and a marker for `null` (so values like `12` and `2` can't accidentally
+look like substrings of each other), then check whether `subRoot`'s string is a substring of `root`'s
+string.
+
+---
+
+## Binary & N-ary Tree Level Order Traversal (LeetCode 102 / 429) — Medium
+
+**Pattern:** trees, BFS with a `levelSize` snapshot — the same shape as `reverseOddLevels`, just
+collecting values into `List<List<Integer>>` instead of mutating in place.
+**Approach:** standard level-order BFS; `levelSize` is read **before** the inner loop so each `while`
+iteration corresponds to exactly one tree level. The binary and n-ary versions only differ in how a
+node's children get added to the queue (`left`/`right` vs looping over `children`).
+
+```java
+public List<List<Integer>> levelOrder(TreeNode root) {
+    if (root == null) {
+        return Collections.emptyList();
+    }
+    List<List<Integer>> res = new ArrayList<>();
+    Queue<TreeNode> queue = new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        int levelSize = queue.size();
+        List<Integer> levelList = new ArrayList<>();
+        for (int i = 0; i < levelSize; i++) {
+            TreeNode node = queue.poll();
+            if (node.left != null) {
+                queue.add(node.left);
+            }
+            if (node.right != null) {
+                queue.add(node.right);
+            }
+            levelList.add(node.val);
+        }
+        res.add(levelList);
+    }
+    return res;
+}
+
+public List<List<Integer>> levelOrder(Node root) {
+    if (root == null) {
+        return new ArrayList<>();
+    }
+    List<List<Integer>> res = new ArrayList<>();
+    Queue<Node> queue = new LinkedList<>();
+    queue.add(root);
+    while (!queue.isEmpty()) {
+        int levelSize = queue.size();
+        List<Integer> levelList = new ArrayList<>();
+        for (int i = 0; i < levelSize; i++) {
+            Node node = queue.poll();
+            for (int j = 0; j < node.children.size(); j++) {
+                queue.add(node.children.get(j));
+            }
+            levelList.add(node.val);
+        }
+        res.add(levelList);
+    }
+    return res;
+}
+```
+
+---
+
+## Isomorphic Strings (LeetCode 205) — Easy
+
+**Pattern:** arrays/hashing, bijective character mapping (a mapping that must be consistent in **both**
+directions).
+**Approach:** two hashmaps — `s[i] -> t[i]` and `t[i] -> s[i]`. A new pair of characters is only safe to
+map if **neither** has been mapped to anything yet; otherwise both existing mappings must already agree
+with the current pair, or it's not isomorphic. Tracking only one direction is the classic bug here: it
+misses two *different* source characters trying to map to the *same* target character (e.g. `"badc"` vs
+`"baba"` — false, but a one-way map alone would say true).
+
+```java
+public boolean isIsomorphic(String s, String t) {
+    HashMap<Character, Character> map1 = new HashMap<>();
+    HashMap<Character, Character> map2 = new HashMap<>();
+
+    char[] s1 = s.toCharArray();
+    char[] t1 = t.toCharArray();
+    for (int i = 0; i < s1.length; i++) {
+        if (!map1.containsKey(s1[i]) && !map2.containsKey(t1[i])) {
+            map1.put(s1[i], t1[i]);
+            map2.put(t1[i], s1[i]);
+        } else {
+            if (!map1.containsKey(s1[i]) || !map2.containsKey(t1[i])
+                    || map1.get(s1[i]) != t1[i] || map2.get(t1[i]) != s1[i]) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+```
+A faster alternative in practice (same `O(n)`, smaller constant factor): replace both hashmaps with two
+`int[256]` arrays indexed by character code, storing "last seen position + 1" for each character —
+avoids hashing and `Character` autoboxing entirely.

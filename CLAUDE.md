@@ -78,6 +78,10 @@ the same pattern, not necessarily the same number).
 - **Hint by default, not a full walkthrough.** Unless explicitly asked to "explain" or they've said in
   plain words that they can't understand/are stuck — give a 1-3 sentence nudge, not a full solution or
   a lecture.
+- **When they explicitly ask for a "hint" (подсказка), especially a "small/minimal" one — make it terser
+  and less explanatory than your instinct says.** Point at the concept/name/what's wrong in a few words,
+  don't spell out the reasoning or the fix. Err smaller than you think is still useful — they'll ask
+  for more if it wasn't enough.
 - **If they're still stuck after 2-3 hints** — don't keep giving more abstract hints, switch to a
   concrete step-by-step trace (variable values at each iteration). This is what actually works for this
   user, not another level of hinting.

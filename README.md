@@ -10,11 +10,11 @@ pattern, not a specific number.
 
 | ✓ | Pattern | Reference (LeetCode) | Difficulty | What I solved | Date |
 |---|---|---|---|---|---|
-| ✅ | Trees (DFS) | Diameter of Binary Tree | 🟢 Easy | Invert Binary Tree (226) + Reverse Odd Levels DFS (2415) | 2026-09-24 |
+| ✅ | Trees (DFS) | Diameter of Binary Tree | 🟢 Easy | Invert Binary Tree (226) + Reverse Odd Levels DFS (2415) + Preorder/Postorder Traversal, binary & n-ary (144/145/589/590) + Maximum Depth, binary & n-ary (104/559) + Same Tree (100) + Subtree of Another Tree (572) | 2026-09-26 |
 | ⬜ | Trees (DFS) | Binary Tree Maximum Path Sum | 🔴 Hard | | |
-| ✅ | Trees (BFS) | Binary Tree Vertical Order Traversal | 🟡 Medium | Reverse Odd Levels of Binary Tree — BFS (2415) | 2026-09-24 |
+| ✅ | Trees (BFS) | Binary Tree Vertical Order Traversal | 🟡 Medium | Reverse Odd Levels of Binary Tree — BFS (2415) + Level Order Traversal, binary & n-ary (102/429) | 2026-09-26 |
 | ⬜ | Trees (design) | Binary Search Tree Iterator | 🟡 Medium | | |
-| ⬜ | Hashing / arrays | Isomorphic Strings | 🟢 Easy | | |
+| ✅ | Hashing / arrays | Isomorphic Strings | 🟢 Easy | Isomorphic Strings (205) | 2026-09-26 |
 | ⬜ | Hashing / arrays | Check If N and Its Double Exist | 🟢 Easy | | |
 | ⬜ | Hashing / arrays | Ransom Note | 🟢 Easy | | |
 | ⬜ | Stack | Remove All Adjacent Duplicates In String | 🟢 Easy | | |
