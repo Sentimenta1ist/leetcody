@@ -15,7 +15,7 @@ pattern, not a specific number.
 | ✅ | Trees (BFS) | Binary Tree Vertical Order Traversal | 🟡 Medium | Reverse Odd Levels of Binary Tree — BFS (2415) + Level Order Traversal, binary & n-ary (102/429) | 2026-09-26 |
 | ⬜ | Trees (design) | Binary Search Tree Iterator | 🟡 Medium | | |
 | ✅ | Hashing / arrays | Isomorphic Strings | 🟢 Easy | Isomorphic Strings (205) | 2026-09-26 |
-| ⬜ | Hashing / arrays | Check If N and Its Double Exist | 🟢 Easy | | |
+| ✅ | Hashing / arrays | Check If N and Its Double Exist | 🟢 Easy | Find All Numbers Disappeared in an Array (448) | 2026-09-28 |
 | ⬜ | Hashing / arrays | Ransom Note | 🟢 Easy | | |
 | ⬜ | Stack | Remove All Adjacent Duplicates In String | 🟢 Easy | | |
 | ⬜ | Monotonic stack | Largest Rectangle in Histogram | 🔴 Hard | | |

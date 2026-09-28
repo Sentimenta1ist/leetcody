@@ -500,3 +500,35 @@ private int helperMinDepth(TreeNode root, int depth) {
 An alternative way to write the same idea: let the recursion return `Integer.MAX_VALUE` for a `null`
 node, so a missing child can never win the `Math.min` call by itself — the "both null → leaf" case must
 still be checked separately, before that fallback kicks in.
+
+---
+
+## Find All Numbers Disappeared in an Array (LeetCode 448) — Easy
+
+**Pattern:** arrays, using the array itself as a hashmap (values are guaranteed in `[1, n]`).
+**Approach:** for every value `v` in `nums`, negate whatever sits at index `v - 1` — that index now
+means "value `v` was seen". Duplicates are harmless because negating an already-negative number with
+`-Math.abs(...)` just leaves it negative. A second pass collects every index `k` still positive — value
+`k + 1` never showed up. O(n) time, O(1) extra space (the output list doesn't count per the problem).
+
+The classic bug here: writing `Math.abs(nums[i] - 1)` instead of `Math.abs(nums[i]) - 1` — they agree
+only while `nums[i]` is still positive, and silently give the wrong index once earlier iterations have
+negated it.
+
+```java
+public List<Integer> findDisappearedNumbers(int[] nums) {
+    List<Integer> res = new ArrayList<>();
+    for (int i = 0; i < nums.length; i++) {
+        nums[Math.abs(nums[i]) - 1] = -Math.abs(nums[Math.abs(nums[i]) - 1]);
+    }
+    for (int i = 0; i < nums.length; i++) {
+        if (nums[i] > 0) {
+            res.add(i + 1);
+        }
+    }
+    return res;
+}
+```
+A different O(1)-space technique for the same range constraint: **cyclic sort** — swap every value to
+its "home" index (`nums[i]` belongs at `nums[i] - 1`) instead of flipping a sign; a final pass then finds
+positions where `nums[k] != k + 1`. Same complexity, different mechanic — see `PATTERNS.md`.

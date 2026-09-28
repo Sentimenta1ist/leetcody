@@ -4,6 +4,7 @@ import com.utils.ListNode;
 import com.utils.Node;
 import com.utils.TreeNode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -655,5 +656,31 @@ public class Problems {
         // single character — trivially isomorphic either way
         assertEquals(true, isIsomorphic("a", "a"));
         assertEquals(true, isIsomorphic("a", "b"));
+    }
+
+    public List<Integer> findDisappearedNumbers(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        for(int i = 0; i < nums.length; i++) {
+            nums[Math.abs(nums[i]) - 1] = -Math.abs(nums[Math.abs(nums[i]) - 1]);
+        }
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] > 0) res.add(i + 1);
+        }
+        return res;
+    }
+
+    @Test
+    public void findDisappearedNumbersTest() {
+        assertEquals(List.of(5, 6), findDisappearedNumbers(new int[] {4, 3, 2, 7, 8, 2, 3, 1}));
+        assertEquals(List.of(2), findDisappearedNumbers(new int[] {1, 1}));
+
+        // nothing missing — every number from 1 to n appears
+        assertEquals(List.of(), findDisappearedNumbers(new int[] {1, 2, 3}));
+
+        // everything missing except one repeated number
+        assertEquals(List.of(1, 2, 3), findDisappearedNumbers(new int[] {4, 4, 4, 4}));
+
+        // single element
+        assertEquals(List.of(), findDisappearedNumbers(new int[] {1}));
     }
 }

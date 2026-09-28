@@ -136,6 +136,27 @@ for (int i = 0; i < a.length(); i++) {
 A faster (same `O(n)`, smaller constant) alternative when the alphabet is small: replace both maps with
 `int[]` arrays indexed by character code, storing "last seen position" — no hashing, no boxing.
 
+### Array-as-hashmap (values are indices in range `[1, n]`)
+When `nums[i]` is guaranteed to be in `[1, n]`, you don't need a real `HashSet`/`HashMap` to mark "I've
+seen this value" — the array itself has a slot for every possible value, so use the **sign** of
+`nums[value - 1]` as a seen/not-seen flag:
+```java
+for (int i = 0; i < nums.length; i++) {
+    int idx = Math.abs(nums[i]) - 1;      // abs() because nums[i] may already be negated
+    nums[idx] = -Math.abs(nums[idx]);     // mark "value idx+1 was seen" — safe to repeat on duplicates
+}
+// afterwards: nums[k] > 0  =>  value k+1 never appeared
+```
+O(n) time, O(1) extra space. Watch the parentheses: `Math.abs(nums[i]) - 1` (index from the original
+value) is not the same as `Math.abs(nums[i] - 1)` (abs of an already-shifted value) — they only agree by
+coincidence while `nums[i]` is still positive.
+
+**Cyclic sort** — a related O(1)-space trick for the same kind of range constraint: put every value at
+its "home" index (`nums[i]` belongs at index `nums[i] - 1`) by swapping until each position holds its
+correct value or something that doesn't belong there. A single pass afterwards finds every
+mismatch/gap. Same time/space complexity as the sign-marking trick above — just a different mechanic.
+Also the base building block for **First Missing Positive** (LeetCode 41).
+
 ---
 
 ## 3. Graphs
