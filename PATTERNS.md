@@ -63,6 +63,11 @@ while (!queue.isEmpty()) {
 - **Structural comparison (Same Tree / Subtree)** — a helper that compares two trees node-by-node
   (`isSameTree`-style) doubles as the building block for "is X a subtree of Y" — just call that helper
   at every node of the bigger tree instead of only at the root.
+- **Minimum depth ≠ mirror of maximum depth** — `1 + max(left, right)` works for max depth because a
+  missing child (`0`) never wins a `max`. The same trick breaks for **min** depth: a missing child would
+  wrongly win the `min` and make a one-child node look like a leaf. Fix: when only one child exists,
+  recurse into that child alone; only take `min(left, right)` when **both** children exist. (Or: treat a
+  `null` child as `Integer.MAX_VALUE` instead of `0`, so it can never win the `min` by itself.)
 
 ---
 

@@ -4,7 +4,6 @@ import com.utils.ListNode;
 import com.utils.Node;
 import com.utils.TreeNode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -432,6 +431,44 @@ public class Problems {
         assertEquals(0, maxDepth(buildTree(new Integer[] {})));
     }
 
+    public int minDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return helperMinDepth(root, 1);
+    }
+
+    private int helperMinDepth(TreeNode root, int depth) {
+        if (root.left == null && root.right == null) {
+            return depth;
+        }
+        if (root.left == null) {
+            return helperMinDepth(root.right, depth + 1);
+        }
+        if (root.right == null) {
+            return helperMinDepth(root.left, depth + 1);
+        } else {
+            return Math.min(helperMinDepth(root.left, depth + 1), helperMinDepth(root.right, depth + 1));
+        }
+    }
+
+    @Test
+    public void minDepthTest() {
+        TreeNode tree1 = buildTree(new Integer[] {3, 9, 20, null, null, 15, 7});
+        printTree(tree1);
+        assertEquals(2, minDepth(tree1));
+
+        TreeNode tree2 = buildTree(new Integer[] {2, null, 3, null, 4, null, 5, null, 6});
+        printTree(tree2);
+        assertEquals(5, minDepth(tree2));
+
+        TreeNode tree3 = buildTree(new Integer[] {1});
+        printTree(tree3);
+        assertEquals(1, minDepth(tree3));
+
+        assertEquals(0, minDepth(buildTree(new Integer[] {})));
+    }
+
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null && q == null) {
             return true;
@@ -564,7 +601,7 @@ public class Problems {
 
     }
 
-    public void helper(TreeNode root, int prev, int count, int maxCount, List<Integer> res) {
+    public void helperFindMode(TreeNode root, int prev, int count, int maxCount, List<Integer> res) {
         if (root == null) {
             return;
         }
@@ -577,19 +614,6 @@ public class Problems {
 
     }
 
-    //    @Test
-    //    public void findModeTest() {
-    //        TreeNode tree1 = buildTree(new Integer[] {1, null, 2, 2});
-    //        printTree(tree1);
-    //        int[] result1 = findMode(tree1);
-    //        Arrays.sort(result1);
-    //        assertArrayEquals(new int[] {2}, result1);
-    //
-    //        TreeNode tree2 = buildTree(new Integer[] {0});
-    //        printTree(tree2);
-    //        assertArrayEquals(new int[] {0}, findMode(tree2));
-    //    }
-
     public boolean isIsomorphic(String s, String t) {
         HashMap<Character, Character> map1 = new HashMap<>();
         HashMap<Character, Character> map2 = new HashMap<>();
@@ -601,7 +625,8 @@ public class Problems {
                 map1.put(s1[i], t1[i]);
                 map2.put(t1[i], s1[i]);
             } else {
-                if (!map1.containsKey(s1[i]) || !map2.containsKey(t1[i]) || map1.get(s1[i]) != t1[i] || map2.get(t1[i]) != s1[i]) {
+                if (!map1.containsKey(s1[i]) || !map2.containsKey(t1[i]) || map1.get(s1[i]) != t1[i]
+                        || map2.get(t1[i]) != s1[i]) {
                     return false;
                 }
             }

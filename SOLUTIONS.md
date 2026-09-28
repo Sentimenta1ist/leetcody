@@ -464,3 +464,39 @@ public boolean isIsomorphic(String s, String t) {
 A faster alternative in practice (same `O(n)`, smaller constant factor): replace both hashmaps with two
 `int[256]` arrays indexed by character code, storing "last seen position + 1" for each character —
 avoids hashing and `Character` autoboxing entirely.
+
+---
+
+## Minimum Depth of Binary Tree (LeetCode 111) — Easy
+
+**Pattern:** trees, post-order DFS depth — looks like `maxDepth` but needs one extra check.
+**Approach:** a plain `1 + min(depth(left), depth(right))` is wrong here: `null` is not a leaf, so a
+missing child would count as depth `0` and make the node look one step closer to the bottom than it
+really is. Instead, when only one child exists, the answer must come from that child alone — only when
+**both** children exist does the real `min` apply.
+
+```java
+public int minDepth(TreeNode root) {
+    if (root == null) {
+        return 0;
+    }
+    return helperMinDepth(root, 1);
+}
+
+private int helperMinDepth(TreeNode root, int depth) {
+    if (root.left == null && root.right == null) {
+        return depth;
+    }
+    if (root.left == null) {
+        return helperMinDepth(root.right, depth + 1);
+    }
+    if (root.right == null) {
+        return helperMinDepth(root.left, depth + 1);
+    } else {
+        return Math.min(helperMinDepth(root.left, depth + 1), helperMinDepth(root.right, depth + 1));
+    }
+}
+```
+An alternative way to write the same idea: let the recursion return `Integer.MAX_VALUE` for a `null`
+node, so a missing child can never win the `Math.min` call by itself — the "both null → leaf" case must
+still be checked separately, before that fallback kicks in.
