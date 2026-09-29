@@ -660,11 +660,13 @@ public class Problems {
 
     public List<Integer> findDisappearedNumbers(int[] nums) {
         List<Integer> res = new ArrayList<>();
-        for(int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length; i++) {
             nums[Math.abs(nums[i]) - 1] = -Math.abs(nums[Math.abs(nums[i]) - 1]);
         }
-        for(int i = 0; i < nums.length; i++) {
-            if(nums[i] > 0) res.add(i + 1);
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] > 0) {
+                res.add(i + 1);
+            }
         }
         return res;
     }
@@ -682,5 +684,85 @@ public class Problems {
 
         // single element
         assertEquals(List.of(), findDisappearedNumbers(new int[] {1}));
+    }
+
+    public List<List<String>> groupAnagrams(String[] strs) {
+        Map<String, List<String>> map = new HashMap<>();
+
+        for (String str : strs) {
+            char[] chars = str.toCharArray();
+            Arrays.sort(chars);
+            String sorted = new String(chars);
+            if (map.containsKey(sorted)) {
+                map.get(sorted).add(str);
+            } else {
+                List<String> el = new ArrayList<>();
+                el.add(str);
+                map.put(sorted, el);
+            }
+        }
+        return new ArrayList<>(map.values());
+    }
+
+    private List<List<String>> normalizeGroups(List<List<String>> groups) {
+        List<List<String>> normalized = new ArrayList<>();
+        for (List<String> group : groups) {
+            List<String> sortedGroup = new ArrayList<>(group);
+            Collections.sort(sortedGroup);
+            normalized.add(sortedGroup);
+        }
+        normalized.sort((a, b) -> a.toString().compareTo(b.toString()));
+        return normalized;
+    }
+
+    @Test
+    public void groupAnagramsTest() {
+        assertEquals(normalizeGroups(List.of(List.of("bat"), List.of("nat", "tan"), List.of("ate", "eat", "tea"))),
+                normalizeGroups(groupAnagrams(new String[] {"eat", "tea", "tan", "ate", "nat", "bat"})));
+
+        assertEquals(normalizeGroups(List.of(List.of(""))), normalizeGroups(groupAnagrams(new String[] {""})));
+
+        assertEquals(normalizeGroups(List.of(List.of("a"))), normalizeGroups(groupAnagrams(new String[] {"a"})));
+
+        // no anagram partners at all — every string is its own group
+        assertEquals(normalizeGroups(List.of(List.of("abc"), List.of("def"), List.of("ghi"))),
+                normalizeGroups(groupAnagrams(new String[] {"abc", "def", "ghi"})));
+
+        // everything is one big anagram group
+        assertEquals(normalizeGroups(List.of(List.of("abc", "bca", "cab"))),
+                normalizeGroups(groupAnagrams(new String[] {"abc", "bca", "cab"})));
+    }
+
+    public int[] productExceptSelf(int[] nums) {
+        int[] res = new int[nums.length];
+
+        int prefix = 1;
+        for (int i = 0; i < nums.length; i++) {
+            res[i] = prefix;
+            prefix *= nums[i];
+        }
+
+        int suffix = 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            res[i] *= suffix;
+            suffix *= nums[i];
+        }
+        return res;
+    }
+
+    @Test
+    public void productExceptSelfTest() {
+        assertArrayEquals(new int[] {24, 12, 8, 6}, productExceptSelf(new int[] {1, 2, 3, 4}));
+
+        assertArrayEquals(new int[] {0, 0, 9, 0, 0}, productExceptSelf(new int[] {-1, 1, 0, -3, 3}));
+
+        // exactly two elements — smallest allowed input
+        assertArrayEquals(new int[] {3, 2}, productExceptSelf(new int[] {2, 3}));
+
+        // two zeros — every position ends up 0 (product always includes at least one zero)
+        assertArrayEquals(new int[] {0, 0, 0}, productExceptSelf(new int[] {0, 5, 0}));
+
+        // all negative — sign flips should still come out right
+        assertArrayEquals(new int[] {6, 3, 2}, productExceptSelf(new int[] {-1, -2, -3}));
     }
 }

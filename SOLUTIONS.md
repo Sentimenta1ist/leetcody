@@ -532,3 +532,36 @@ public List<Integer> findDisappearedNumbers(int[] nums) {
 A different O(1)-space technique for the same range constraint: **cyclic sort** — swap every value to
 its "home" index (`nums[i]` belongs at `nums[i] - 1`) instead of flipping a sign; a final pass then finds
 positions where `nums[k] != k + 1`. Same complexity, different mechanic — see `PATTERNS.md`.
+
+---
+
+## Product of Array Except Self (LeetCode 238) — Medium
+
+**Pattern:** prefix sum / running product, two passes, O(1) extra space (output array doesn't count).
+**Approach:** `answer[i]` = (everything left of `i`) × (everything right of `i`). First pass, left to
+right: write the running product **into** `res[i]` before folding `nums[i]` into it — so `res[i]` always
+holds "product of everything before `i`", never including `i` itself. Second pass, right to left: same
+idea with a `suffix` running product, multiplied into what's already in `res[i]`.
+
+The classic bug: doing `prefix *= nums[i]` **before** writing `res[i]`, which makes `res[i]` include
+`nums[i]` itself — the whole point of the prefix pass is that it must NOT yet know about the current
+element.
+
+```java
+public int[] productExceptSelf(int[] nums) {
+    int[] res = new int[nums.length];
+
+    int prefix = 1;
+    for (int i = 0; i < nums.length; i++) {
+        res[i] = prefix;
+        prefix *= nums[i];
+    }
+
+    int suffix = 1;
+    for (int i = nums.length - 1; i >= 0; i--) {
+        res[i] *= suffix;
+        suffix *= nums[i];
+    }
+    return res;
+}
+```

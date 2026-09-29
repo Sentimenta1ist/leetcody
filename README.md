@@ -29,7 +29,7 @@ pattern, not a specific number.
 | ⬜ | Sliding window | Longest Repeating Character Replacement | 🟡 Medium | | |
 | ⬜ | Sliding window (hard) | Minimum Window Substring | 🔴 Hard | | |
 | ⬜ | Prefix sum + hashmap | Subarray Sum Equals K | 🟡 Medium | | |
-| ⬜ | Prefix sum | Ways to Make a Fair Array | 🟡 Medium | | |
+| ✅ | Prefix sum | Ways to Make a Fair Array | 🟡 Medium | Product of Array Except Self (238) | 2026-09-29 |
 | ⬜ | Heap / priority queue | Top K Frequent Elements | 🟡 Medium | | |
 | ⬜ | Heap / priority queue | Find K Pairs with Smallest Sums | 🟡 Medium | | |
 | ⬜ | Heap / priority queue | Kth Largest Element in an Array | 🟡 Medium | | |

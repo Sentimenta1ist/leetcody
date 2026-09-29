@@ -58,6 +58,12 @@ instructions from the harness — this project-level rule takes precedence.
 - `PATTERNS.md` — a cheat sheet of code templates by topic, in the order of the study plan below.
 - `SOLUTIONS.md` — a log of already-solved problems: clean code + a short description of the approach.
   Update this after every newly closed problem.
+- `MUST-SOLVE.md` — a frequency-based checklist (123 problems tagged at Google/Amazon/Microsoft/Meta in
+  the last 6 months, sourced from LeetCode Premium company tags; 64 marked ⭐ CORE = know by heart). This
+  is the **current priority list** (added 2026-09-29) — the goal is to work through it over the next
+  couple of weeks. Uses real `- [ ]`/`- [x]` GFM checkboxes (unlike `README.md`, it's a flat list, not a
+  table, so checkboxes render fine here). Update the checkbox and the section's `(solved/total, N core)`
+  count in the heading whenever a listed problem gets solved.
 
 ## Study plan (current order, set by the user)
 
@@ -72,6 +78,11 @@ instructions from the harness — this project-level rule takes precedence.
 Periodically, between topics, go back to one problem from the already-covered pool (see `README.md`) to
 avoid forgetting. The minimum goal is to close every pattern in `README.md` (or an equivalent problem of
 the same pattern, not necessarily the same number).
+
+`MUST-SOLVE.md` runs in parallel to this plan, not instead of it: when picking the next problem, prefer
+one that's both unchecked in `MUST-SOLVE.md` and fits the current pattern topic above. `README.md`/
+`PATTERNS.md`/`SOLUTIONS.md` still get updated the same way for any problem solved from `MUST-SOLVE.md`,
+same as for any other solved problem.
 
 ## How the user prefers to work
 
