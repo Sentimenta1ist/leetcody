@@ -3,9 +3,12 @@ package com;
 import com.utils.ListNode;
 import com.utils.Node;
 import com.utils.TreeNode;
+import java.awt.datatransfer.StringSelection;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static com.utils.LinkedListUtils.buildList;
@@ -25,6 +29,8 @@ import static com.utils.TreeUtils.printTree;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class Problems {
     public static void main(String[] args) {
@@ -764,5 +770,196 @@ public class Problems {
 
         // all negative — sign flips should still come out right
         assertArrayEquals(new int[] {6, 3, 2}, productExceptSelf(new int[] {-1, -2, -3}));
+    }
+
+    public boolean isPalindrome(String s) {
+        int left = 0;
+        int right = s.length() - 1;
+        while (left < right) {
+            if (Character.toLowerCase(s.charAt(left)) == Character.toLowerCase(s.charAt(right))) {
+                left++;
+                right--;
+            } else if (!Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+            } else if (!Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+            } else {
+                return false;
+            }
+
+        }
+        return true;
+    }
+
+    @Test
+    public void isPalindromeTest() {
+        // digits count as alphanumeric too
+        assertTrue(isPalindrome("1a1"));
+        assertTrue(isPalindrome("A man, a plan, a canal: Panama"));
+        assertFalse(isPalindrome("race a car"));
+
+        // everything is non-alphanumeric — becomes an empty string, trivially a palindrome
+        assertTrue(isPalindrome(" "));
+
+        // single character
+        assertTrue(isPalindrome("a"));
+
+        // mixed case + punctuation, not a palindrome
+        assertFalse(isPalindrome("Hello, World!"));
+    }
+
+    private static final Map<Character, Character> BRACKET_PAIRS = Map.of(')', '(', ']', '[', '}', '{');
+
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        for (char c : s.toCharArray()) {
+            if (BRACKET_PAIRS.containsKey(c)) {
+                if (stack.isEmpty() || !stack.pop().equals(BRACKET_PAIRS.get(c))) {
+                    return false;
+                }
+            } else {
+                stack.push(c);
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    @Test
+    public void isValidTest() {
+        assertTrue(isValid("([])"));
+        assertTrue(isValid("()"));
+        assertTrue(isValid("()[]{}"));
+        assertFalse(isValid("(]"));
+
+        // unmatched opening bracket — nothing ever closes it
+        assertFalse(isValid("("));
+
+        // unmatched closing bracket — nothing to close
+        assertFalse(isValid(")"));
+
+        // same bracket types, but interleaved in the wrong order
+        assertFalse(isValid("([)]"));
+
+        // nested nested nested — nothing left open at the end
+        assertTrue(isValid("{[()]}"));
+    }
+
+    public int maxArea(int[] height) {
+        int left = 0, right = height.length - 1;
+        int maxArea = 0;
+        while (left < right) {
+            maxArea = Math.max(Math.min(height[left], height[right]) * (right - left), maxArea);
+            if (height[left] > height[right]) {
+                right--;
+            } else {
+                left++;
+            }
+        }
+        return maxArea;
+    }
+
+
+    @Test
+    public void maxAreaTest() {
+        assertEquals(49, maxArea(new int[] {1, 8, 6, 2, 5, 4, 8, 3, 7}));
+        assertEquals(1, maxArea(new int[] {1, 1}));
+
+        // last element is the tallest — the widest pair (ends) wins over any taller-but-narrower pair
+        assertEquals(25, maxArea(new int[] {5, 4, 3, 2, 1, 6}));
+
+        // all equal height — area is just width * height for the full span
+        assertEquals(20, maxArea(new int[] {5, 5, 5, 5, 5}));
+
+        // two elements — smallest possible input
+        assertEquals(3, maxArea(new int[] {3, 7}));
+    }
+
+    public boolean exist(char[][] board, String word) {
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                if (word.charAt(0) == board[i][j] && backtrackExist(i, j, board, word, 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean backtrackExist(int i, int j, char[][] board, String word, int index) {
+        if (index == word.length()) {
+            return true;
+        }
+        if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) {
+            return false;
+        }
+        if (board[i][j] != word.charAt(index)) {
+            return false;
+        }
+        char k = board[i][j];
+        board[i][j] = '+';
+        boolean result = backtrackExist(i + 1, j, board, word, index + 1) || backtrackExist(i, j + 1, board, word, index + 1)
+                || backtrackExist(i - 1, j, board, word, index + 1) || backtrackExist(i, j - 1, board, word, index + 1);
+        board[i][j] = k;
+        return result;
+    }
+
+    @Test
+    public void existTest() {
+        char[][] board1 = {{'A', 'B', 'C', 'E'}, {'S', 'F', 'C', 'S'}, {'A', 'D', 'E', 'E'}};
+        assertTrue(exist(board1, "ABCCED"));
+        assertTrue(exist(board1, "SEE"));
+        assertFalse(exist(board1, "ABCB"));
+
+        // single cell, single letter word
+        assertTrue(exist(new char[][] {{'A'}}, "A"));
+
+        // word longer than the number of cells on the board — can never fit
+        assertFalse(exist(new char[][] {{'A', 'B'}, {'C', 'D'}}, "ABCDE"));
+
+        // would spell the word only by reusing the same cell twice — not allowed
+        assertFalse(exist(new char[][] {{'A', 'A'}}, "AAA"));
+    }
+
+    Map<Character, List<Character>> phoneLetters =
+            Map.of('2', List.of('a', 'b', 'c'), '3', List.of('d', 'e', 'f'), '4', List.of('g', 'h', 'i'), '5',
+                    List.of('j', 'k', 'l'), '6', List.of('m', 'n', 'o'), '7', List.of('p', 'q', 'r', 's'), '8',
+                    List.of('t', 'u', 'v'), '9', List.of('w', 'x', 'y', 'z'));
+
+    public List<String> letterCombinations(String digits) {
+        List<String> res = new ArrayList<>();
+        if (digits.isEmpty()) {
+            return res;
+        }
+        backtrack(res, new StringBuilder(), digits, 0);
+        return res;
+    }
+
+    public void backtrack(List<String> res, StringBuilder curr, String digits, int index) {
+        if (curr.length() == digits.length()) {
+            res.add(curr.toString());
+            return;
+        }
+        List<Character> letters = phoneLetters.get(digits.charAt(index));
+        for (Character letter : letters) {
+            curr.append(letter);
+            backtrack(res, curr, digits, index + 1);
+            curr.deleteCharAt(curr.length() - 1);
+        }
+    }
+
+    @Test
+    public void letterCombinationsTest() {
+        assertEquals(List.of("ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"), letterCombinations("23"));
+        assertEquals(List.of("a", "b", "c"), letterCombinations("2"));
+
+        // empty input — no digits, no combinations
+        assertEquals(List.of(), letterCombinations(""));
+
+        // digit "9" maps to 4 letters, not 3
+        assertEquals(List.of("w", "x", "y", "z"), letterCombinations("9"));
+
+        // three digits — combinations grow multiplicatively (3 * 4 * 4 = 48 results)
+        assertEquals(48, letterCombinations("279").size());
     }
 }

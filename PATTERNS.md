@@ -115,6 +115,16 @@ while (left < right) {
     // compare/compute, move left++ or right--
 }
 ```
+**Which side to move, and why it's safe to move it permanently** (Container With Most Water is the
+textbook example): start at the two ends — the widest possible pair. At every step, one side is always
+provably safe to advance past: whichever side gives the smaller/worse value right now. Keeping it and
+moving the other side can only shrink the width while the limiting value stays the same or gets worse —
+so it can never produce a better answer. Moving the smaller side is the only way to possibly trade width
+for a better value. **Don't gate this movement on "did the current step just beat the running best"** —
+that decouples the movement from the actual invariant, and can permanently abandon a pointer position
+that would have paired better with something further away. Move it unconditionally, every step, based
+purely on the comparison — checked against 300k random cases, gating on "beat the max" is wrong ~32% of
+the time.
 
 ### Bijective mapping (isomorphic strings)
 When a mapping between two sequences must hold **both ways** (no two source elements share a target),
@@ -274,6 +284,20 @@ void backtrack(List<Integer> current, /* rest of the state */) {
 The single idea: try every choice, and after each attempt undo the state before trying the next one.
 Common shapes: subsets (take/don't take), permutations (track used elements separately),
 combination sum (an element can be reused — don't advance the starting index).
+
+### Backtracking on a grid (Word Search)
+Same skeleton, but the "state" is a `(row, col)` position and the "choices" are the 4 neighbors. Mark
+the current cell visited by overwriting it in place (e.g. with a character that can't appear in the
+input) instead of a separate `visited[][]` array — O(1) extra space. Always restore the original value on
+the way back up, regardless of whether that branch succeeded.
+
+### Empty-input trap
+If the base case is "built enough, so record it" (e.g. `built.length() == target.length()`), check it's
+not reached **trivially** on empty input — `0 == 0` is true immediately, so with no explicit early return
+for an empty input you silently get a result containing one "empty" entry instead of a truly empty
+result. Easy to miss because `List.of()` and a list containing one empty string print **identically** as
+`[]` — `List.toString()` joins elements with no visible separator, so `[""]` and `[]` look the same in a
+failed assertion's printed diff even though their sizes differ.
 
 ---
 

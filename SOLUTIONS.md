@@ -565,3 +565,175 @@ public int[] productExceptSelf(int[] nums) {
     return res;
 }
 ```
+
+---
+
+## Valid Palindrome (LeetCode 125) — Easy
+
+**Pattern:** two pointers, converging from both ends.
+**Approach:** `left`/`right` start at the two ends and move toward each other. Skip any character that
+isn't a letter or digit on either side. When both sides land on real characters, compare them
+case-insensitively; a mismatch means it's not a palindrome.
+
+```java
+public boolean isPalindrome(String s) {
+    int left = 0;
+    int right = s.length() - 1;
+    while (left < right) {
+        if (Character.toLowerCase(s.charAt(left)) == Character.toLowerCase(s.charAt(right))) {
+            left++;
+            right--;
+        } else if (!Character.isLetterOrDigit(s.charAt(left))) {
+            left++;
+        } else if (!Character.isLetterOrDigit(s.charAt(right))) {
+            right--;
+        } else {
+            return false;
+        }
+    }
+    return true;
+}
+```
+
+---
+
+## Valid Parentheses (LeetCode 20) — Easy
+
+**Pattern:** stack, matching pairs.
+**Approach:** a map from each closing bracket to its matching opening bracket. Push opening brackets.
+On a closing bracket, fail if the stack is empty or the popped value doesn't match — `.equals()`, not
+`!=`, to compare the two `Character` objects safely.
+
+```java
+private static final Map<Character, Character> BRACKET_PAIRS = Map.of(')', '(', ']', '[', '}', '{');
+
+public boolean isValid(String s) {
+    Deque<Character> stack = new ArrayDeque<>();
+    for (char c : s.toCharArray()) {
+        if (BRACKET_PAIRS.containsKey(c)) {
+            if (stack.isEmpty() || !stack.pop().equals(BRACKET_PAIRS.get(c))) {
+                return false;
+            }
+        } else {
+            stack.push(c);
+        }
+    }
+    return stack.isEmpty();
+}
+```
+
+---
+
+## Container With Most Water (LeetCode 11) — Medium
+
+**Pattern:** two pointers, converging from both ends.
+**Approach:** start with the widest possible pair (both ends). At each step, the shorter wall is always
+the one worth moving: keeping it and moving the taller wall can only shrink the width while the limiting
+height (the `min`) stays the same or gets worse, so it can never improve the answer. Moving the shorter
+wall is the only way to possibly find a taller one and win on height what's lost on width.
+
+```java
+public int maxArea(int[] height) {
+    int left = 0, right = height.length - 1;
+    int maxArea = 0;
+    while (left < right) {
+        maxArea = Math.max(Math.min(height[left], height[right]) * (right - left), maxArea);
+        if (height[left] > height[right]) {
+            right--;
+        } else {
+            left++;
+        }
+    }
+    return maxArea;
+}
+```
+A tempting but broken variant: sweeping `right` forward with a `for` loop while `left` only advances
+when it happens to beat the running max. That decouples pointer movement from the real invariant (always
+drop the shorter wall) and can permanently abandon a `left` index that would have paired better with a
+`right` further ahead — verified wrong on ~32% of random small arrays against a brute-force check.
+
+---
+
+## Word Search (LeetCode 79) — Medium
+
+**Pattern:** backtracking, DFS on a grid.
+**Approach:** try starting the search from every cell that matches the word's first letter. At each step
+of the DFS, check bounds and that the current cell matches the next needed letter, temporarily mark the
+cell as visited by overwriting it (`'+'`, safe since the board is guaranteed to hold only letters), try
+all 4 neighbors, then restore the cell on the way back up (backtrack) regardless of the outcome.
+
+```java
+public boolean exist(char[][] board, String word) {
+    for (int i = 0; i < board.length; i++) {
+        for (int j = 0; j < board[0].length; j++) {
+            if (word.charAt(0) == board[i][j] && backtrackExist(i, j, board, word, 0)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+public boolean backtrackExist(int i, int j, char[][] board, String word, int index) {
+    if (index == word.length()) {
+        return true;
+    }
+    if (i < 0 || j < 0 || i >= board.length || j >= board[0].length) {
+        return false;
+    }
+    if (board[i][j] != word.charAt(index)) {
+        return false;
+    }
+    char k = board[i][j];
+    board[i][j] = '+';
+    boolean result = backtrackExist(i + 1, j, board, word, index + 1) || backtrackExist(i, j + 1, board, word, index + 1)
+            || backtrackExist(i - 1, j, board, word, index + 1) || backtrackExist(i, j - 1, board, word, index + 1);
+    board[i][j] = k;
+    return result;
+}
+```
+Marking the cell in place instead of a separate `visited[][]` matrix keeps this O(1) extra space (besides
+the recursion stack) — no need for a second grid.
+
+---
+
+## Letter Combinations of a Phone Number (LeetCode 17) — Medium
+
+**Pattern:** backtracking, one choice per position.
+**Approach:** a map from digit to its letters. DFS over digit positions: at each position, try every
+letter for the current digit, append it to a shared `StringBuilder`, recurse into the next position, then
+delete the last character on the way back up (the backtrack step). When the built string reaches the
+target length, record a copy and return.
+
+```java
+Map<Character, List<Character>> phoneLetters =
+        Map.of('2', List.of('a', 'b', 'c'), '3', List.of('d', 'e', 'f'), '4', List.of('g', 'h', 'i'), '5',
+                List.of('j', 'k', 'l'), '6', List.of('m', 'n', 'o'), '7', List.of('p', 'q', 'r', 's'), '8',
+                List.of('t', 'u', 'v'), '9', List.of('w', 'x', 'y', 'z'));
+
+public List<String> letterCombinations(String digits) {
+    List<String> res = new ArrayList<>();
+    if (digits.isEmpty()) {
+        return res;
+    }
+    backtrack(res, new StringBuilder(), digits, 0);
+    return res;
+}
+
+public void backtrack(List<String> res, StringBuilder curr, String digits, int index) {
+    if (curr.length() == digits.length()) {
+        res.add(curr.toString());
+        return;
+    }
+    List<Character> letters = phoneLetters.get(digits.charAt(index));
+    for (Character letter : letters) {
+        curr.append(letter);
+        backtrack(res, curr, digits, index + 1);
+        curr.deleteCharAt(curr.length() - 1);
+    }
+}
+```
+The classic bug on empty input: without the `digits.isEmpty()` early return, the base case
+(`curr.length() == digits.length()`) is true immediately at `0 == 0`, adding the empty string and
+returning `[""]` instead of the expected `[]` — and both print identically as `[]`, since
+`List.toString()` joins elements with no visible separator for a single empty-string element.

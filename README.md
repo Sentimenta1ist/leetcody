@@ -13,7 +13,7 @@ count.
 
 Each line: difficulty, CORE flag, one-line key idea (try it yourself before reading it), and which companies tagged it in the last 6 months — **bold** company = tagged in the last 30 days.
 
-**Progress: 9/123 total, 9/64 core.**
+**Progress: 13/123 total, 13/64 core.**
 
 ## Arrays & Hashing (3/11, 4 core)
 
@@ -29,11 +29,11 @@ Each line: difficulty, CORE flag, one-line key idea (try it yourself before read
 - [ ] [String to Integer (atoi)](https://leetcode.com/problems/string-to-integer-atoi) (8) — 🟡 Medium — пробелы → знак → цифры → clamp overflow — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg, Netflix_
 - [ ] [First Missing Positive](https://leetcode.com/problems/first-missing-positive) (41) — 🔴 Hard — cyclic sort: ставь x на индекс x−1 — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
 
-## Two Pointers (1/8, 3 core)
+## Two Pointers (3/8, 3 core)
 
 - [x] [3Sum](https://leetcode.com/problems/3sum) (15) — 🟡 Medium ⭐ CORE — sort + фикс i + two pointers, пропуск дублей — _**Google**, **Amazon**, **Microsoft**, Meta, Apple, **Bloomberg**_
-- [ ] [Container With Most Water](https://leetcode.com/problems/container-with-most-water) (11) — 🟡 Medium ⭐ CORE — двигай меньшую стенку — _**Google**, **Amazon**, **Microsoft**, Meta, Apple, Bloomberg_
-- [ ] [Valid Palindrome](https://leetcode.com/problems/valid-palindrome) (125) — 🟢 Easy ⭐ CORE — два указателя, пропуск не-alnum — _**Google**, Amazon, Microsoft, Meta, Apple, **Bloomberg**_
+- [x] [Container With Most Water](https://leetcode.com/problems/container-with-most-water) (11) — 🟡 Medium ⭐ CORE — двигай меньшую стенку — _**Google**, **Amazon**, **Microsoft**, Meta, Apple, Bloomberg_
+- [x] [Valid Palindrome](https://leetcode.com/problems/valid-palindrome) (125) — 🟢 Easy ⭐ CORE — два указателя, пропуск не-alnum — _**Google**, Amazon, Microsoft, Meta, Apple, **Bloomberg**_
 - [ ] [Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array) (88) — 🟢 Easy — заполняй с конца — _**Google**, **Amazon**, Microsoft, **Meta**, Bloomberg_
 - [ ] [Sort Colors](https://leetcode.com/problems/sort-colors) (75) — 🟡 Medium — Dutch flag: low/mid/high — _**Google**, **Amazon**, Microsoft, **Meta**, Apple, Bloomberg_
 - [ ] [Next Permutation](https://leetcode.com/problems/next-permutation) (31) — 🟡 Medium — найди первый спад справа, swap с ближайшим бо́льшим, reverse хвоста — _**Google**, Amazon, **Microsoft**, **Meta**, Bloomberg_
@@ -50,9 +50,9 @@ Each line: difficulty, CORE flag, one-line key idea (try it yourself before read
 - [ ] [Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets) (904) — 🟡 Medium — окно с ≤ 2 типами — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
 - [ ] [Permutation in String](https://leetcode.com/problems/permutation-in-string) (567) — 🟡 Medium — фиксированное окно + сравнение счётчиков — _Google, **Amazon**, **Microsoft**, Meta, Apple, Bloomberg_
 
-## Stack (0/8, 3 core)
+## Stack (1/8, 3 core)
 
-- [ ] [Valid Parentheses](https://leetcode.com/problems/valid-parentheses) (20) — 🟢 Easy ⭐ CORE — стек открывающих скобок — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
+- [x] [Valid Parentheses](https://leetcode.com/problems/valid-parentheses) (20) — 🟢 Easy ⭐ CORE — стек открывающих скобок — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
 - [ ] [Daily Temperatures](https://leetcode.com/problems/daily-temperatures) (739) — 🟡 Medium ⭐ CORE — монотонный убывающий стек индексов — _Google, **Amazon**, Microsoft, Meta, Bloomberg_
 - [ ] [Min Stack](https://leetcode.com/problems/min-stack) (155) — 🟡 Medium ⭐ CORE — второй стек минимумов — _Google, Amazon, Microsoft, Meta, Bloomberg_
 - [ ] [Decode String](https://leetcode.com/problems/decode-string) (394) — 🟡 Medium — стек (строка, множитель) — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
@@ -124,9 +124,9 @@ Each line: difficulty, CORE flag, one-line key idea (try it yourself before read
 - [ ] [Making A Large Island](https://leetcode.com/problems/making-a-large-island) (827) — 🔴 Hard — пометить острова id+размер, пробовать каждый 0 — _Google, Amazon, Microsoft, Meta, Uber_
 - [ ] [Alien Dictionary](https://leetcode.com/problems/alien-dictionary) (269) — 🔴 Hard — граф из соседних слов + топосорт — _Google, Amazon, Bloomberg, Uber_
 
-## Backtracking (1/8, 6 core)
+## Backtracking (2/8, 6 core)
 
-- [ ] [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number) (17) — 🟡 Medium ⭐ CORE — DFS по цифрам — _**Google**, **Amazon**, Microsoft, Meta, Apple, **Bloomberg**_
+- [x] [Letter Combinations of a Phone Number](https://leetcode.com/problems/letter-combinations-of-a-phone-number) (17) — 🟡 Medium ⭐ CORE — DFS по цифрам — _**Google**, **Amazon**, Microsoft, Meta, Apple, **Bloomberg**_
 - [ ] [Generate Parentheses](https://leetcode.com/problems/generate-parentheses) (22) — 🟡 Medium ⭐ CORE — open < n, close < open — _**Google**, Amazon, Microsoft, Meta, Bloomberg_
 - [ ] [Subsets](https://leetcode.com/problems/subsets) (78) — 🟡 Medium ⭐ CORE — взять/не взять — _Google, **Amazon**, Microsoft, Meta, Bloomberg_
 - [ ] [Permutations](https://leetcode.com/problems/permutations) (46) — 🟡 Medium ⭐ CORE — used[] или swap — _**Google**, **Amazon**, Microsoft, Meta, Bloomberg_
